@@ -51,35 +51,43 @@
         }
 
         .message {
-          display: flex;
-          align-items: flex-start;
-          margin: 10px 0;
-        }
+  display: flex;
+  align-items: flex-start;
+  margin: 10px 0;
+}
 
-        .avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
+.npc-message {
+  background: rgb(84, 63, 75);
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 70%;
+  color: rgb(220, 180, 200);
+  margin-left: 50px; /* 让NPC消息和头像对齐 */
+}
 
-        .npc-message {
-          background: rgb(84, 63, 75);
-          padding: 10px;
-          border-radius: 10px;
-          max-width: 70%;
-          color: rgb(220, 180, 200);
-        }
+.player-message {
+  background: rgb(183, 96, 138);
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 70%;
+  color: rgb(250, 220, 240);
+  margin-right: 50px; /* 让玩家消息和头像对齐 */
+  align-self: flex-end;
+}
 
-        .player-message {
-          background: rgb(183, 96, 138);
-          padding: 10px;
-          border-radius: 10px;
-          max-width: 70%;
-          align-self: flex-end;
-          color: rgb(250, 220, 240);
-        }
+.message .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
 
+.message.npc {
+  justify-content: flex-start; /* NPC 对话靠左 */
+}
+
+.message.player {
+  justify-content: flex-end; /* 玩家对话靠右 */
+}
         button {
           background: none;
           border: 1px solid rgb(183, 96, 138);
