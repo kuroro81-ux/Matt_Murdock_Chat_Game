@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夜莺与盲律师</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1A1A1A;
+            color: #E0C0D0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .status-bar {
+            background: #2D2C2E;
+            padding: 8px;
+            color: #B7608A;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .chat-container {
+            max-width: 375px;
+            margin: 20px auto;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background: #0F0F12;
+        }
+
+        .message {
+            max-width: 80%;
+            margin: 15px 0;
+            animation: fadeIn 0.3s;
+        }
+
+        .npc-message {
+            background: #4A3A4B;
+            color: #E8D0E0;
+            border-radius: 15px 15px 15px 3px;
+            padding: 12px;
+            margin-left: 10px;
+            position: relative;
+        }
+
+        .player-message {
+            background: #B7608A;
+            color: #FFF;
+            border-radius: 15px 15px 3px 15px;
+            padding: 12px;
+            margin-right: 10px;
+            margin-left: auto;
+        }
+
+        .timestamp {
+            font-size: 10px;
+            color: #6A5D6E;
+            margin: 5px 10px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 8px;
+            color: #B7608A;
+            animation: typing 1s infinite;
+        }
+
+        .media-message {
+            background: #000;
+            border-radius: 10px;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        @keyframes typing {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .options {
+            margin: 10px;
+            border-top: 1px solid #3A2D39;
+            padding-top: 15px;
+        }
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #1A1A1A;
+    color: #E0C0D0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.status-bar {
+    background: #2D2C2E;
+    padding: 8px;
+    color: #B7608A;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.chat-container {
+    max-width: 375px;
+    margin: 20px auto;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background: #0F0F12;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.message {
+    max-width: 80%;
+    margin: 15px 0;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.npc-message {
+    background: #4A3A4B;
+    color: #E8D0E0;
+    border-radius: 15px 15px 15px 3px;
+    padding: 12px;
+    margin-left: 10px;
+    position: relative;
+}
+
+.player-message {
+    background: #B7608A;
+    color: #FFF;
+    border-radius: 15px 15px 3px 15px;
+    padding: 12px;
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+.timestamp {
+    font-size: 10px;
+    color: #6A5D6E;
+    margin: 5px 10px;
+    text-align: right;
+}
+
+.typing-indicator {
+    display: flex;
+    padding: 8px;
+    color: #B7608A;
+    font-style: italic;
+    animation: typing 1s infinite;
+}
+
+.media-message {
+    background: #222;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+@keyframes typing {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.options {
+    border-top: 1px solid #3A2D39;
+    padding: 15px;
+    background: #1F1D1F;
+}
+
+button {
+    background: #3A2D39;
+    border: none;
+    color: #E0C0D0;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 20px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #4A3A4B;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+    background-color: #4A3A4B;
+    display: inline-block;
+}
+
+.chat-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: #6A5D6E;
+    border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: #0F0F12;
+}
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <span>📶 5G | 97%</span>
+        <span>03:47</span>
+    </div>
+    
+    <div class="chat-container">
+        <div id="chat-box"></div>
+        <div class="options">
+            <button onclick="startChat()">📱 开始加密对话</button>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById("chat-box");
+        let affection = 0;
+        let chatPhase = 0;
+
+        const dialogues = [
+            {
+                npc: `📱 马特：*震动*\n（发送模糊的屋顶监控截图）\n"03:47的访客该交停车费了\n上次的弹孔账单还没结清？"`,
+                options: [
+                    {
+                        text: `"你家的咖啡难喝得像洗碗水\n不如用维修费换情报？"`,
+                        effect: +20,
+                        response: `📱 马特：*正在输入...*\n"记得你欠我...\n① 3次无人机支援\n② 唐人街那晚的真相\n③ 白玫瑰的约定"`
+                    },
+                    {
+                        text: `*发送战术匕首照片*\n"新玩具，想试试吗？\n（定位共享：你的公寓）"`,
+                        effect: +30,
+                        response: `📱 马特：*已读 03:49*\n（位置更新：0.3km接近中）\n"建议先藏好威士忌\n和那件黑色丝绸睡衣"`
+                    }
+                ]
+            },
+            {
+                npc: `📱 马特：*语音消息 12s*\n（背景枪声）\n"金并的货船有...（爆炸声）\n十二个孩子...（喘息）需要..."`,
+                options: [
+                    {
+                        text: `*发送武器清单*\n"老规矩：你诱敌我拆弹\n搞砸就赔三倍夜视镜钱"`,
+                        effect: +40,
+                        response: `📱 马特：*加密文件接收*\n"行动时间04:30\nPS.你上次的伤疤\n比我的更明显"`
+                    },
+                    {
+                        text: `*发送弗兰克通缉令*\n"惩罚者说是陷阱\n你瞒着的事最好现在交代"`,
+                        effect: -20,
+                        response: `📱 马特：*撤回一条消息*\n"...你果然留着三年前的录音\n那个红发女孩的眼睛..."`
+                    }
+                ]
+            },
+            {
+                npc: `📱 马特：*发送舞蹈教学链接*\n"欠你的探戈课\n（附：防弹舞鞋购买链接）"`,
+                options: [
+                    {
+                        text: `*播放旧录音片段*\n"活下来就教你用匕首跳华尔兹\n（密码：你生日+我失手日）"`,
+                        effect: +50,
+                        response: `📱 马特：*位置共享开启*\n"04:45码头见\n你的香水...和初遇时一样"`
+                    },
+                    {
+                        text: `*发送燃烧背景自拍*\n"别跟来，墓碑前放...\n（文件加密：最后留言）"`,
+                        effect: -100,
+                        response: `📱 马特：*最终定位更新*\n"你忘了\n我从不相信黎明..."`
+                    }
+                ]
+            }
+        ];
+
+        function createMessage(text, isPlayer) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isPlayer ? 'player-message' : 'npc-message'}`;
+            
+            // 添加头像
+            if (!isPlayer) {
+                const avatar = document.createElement('img');
+                avatar.className = 'avatar';
+                avatar.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234A3A4B'/%3E%3Cpath d='M30,65 Q50,80 70,65 M40,40 Q50,30 60,40' stroke='%23E8D0E0' stroke-width='4' fill='none'/%3E%3C/svg%3E";
+                messageDiv.prepend(avatar);
+            }
+
+            // 处理多媒体内容
+            text.split('\n').forEach(line => {
+                const p = document.createElement('p');
+                if(line.includes("*发送")) {
+                    p.innerHTML = `📎 ${line.replace('*发送', '')}`;
+                    p.style.color = '#B7608A';
+                } else {
+                    p.textContent = line;
+                }
+                messageDiv.appendChild(p);
+            });
+
+            // 添加时间戳
+            const time = new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: false 
+            }).replace('24:', '00:');
+            const timeStamp = document.createElement('div');
+            timeStamp.className = 'timestamp';
+            timeStamp.textContent = isPlayer ? '✓ 已送达' : `🕶 已读 ${time}`;
+            
+            const container = document.createElement('div');
+            container.appendChild(messageDiv);
+            if(!isPlayer) container.appendChild(timeStamp);
+            
+            return container;
+        }
+
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.innerHTML = '🕶 马特正在输入...';
+            chatBox.appendChild(typing);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return typing;
+        }
+
+        async function addMessage(text, isPlayer = false) {
+            if(!isPlayer) {
+                const typing = showTyping();
+                await new Promise(r => setTimeout(r, 1500));
+                typing.remove();
+            }
+            
+            const message = createMessage(text, isPlayer);
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function selectOption(option) {
+            // 清除选项
+            document.querySelector('.options').innerHTML = '';
+            
+            await addMessage(option.text, true);
+            affection += option.effect;
+            
+            // 显示NPC回应
+            await new Promise(r => setTimeout(r, 800));
+            await addMessage(option.response);
+            
+            chatPhase++;
+            if(chatPhase < dialogues.length) {
+                await showNextDialogue();
+            } else {
+                showEnding();
+            }
+        }
+
+        async function showNextDialogue() {
+            const current = dialogues[chatPhase];
+            await addMessage(current.npc);
+            
+            const optionsDiv = document.querySelector('.options');
+            optionsDiv.innerHTML = current.options.map((opt, i) => `
+                <button onclick="selectOption(${i})">
+                    ${opt.text.replace(/\n/g, '<br>')}
+                </button>
+            `).join('');
+        }
+
+        function showEnding() {
+            const endings = [
+                { threshold: -100, text: "🌹终局：枪口下的白玫瑰\n（好感度："+affection+"）" },
+                { threshold: -50, text: "💔终局：永不愈合的旧伤\n（好感度："+affection+"）" },
+                { threshold: 0, text: "🌃终局：熟悉的陌生人\n（好感度："+affection+"）" },
+                { threshold: 50, text: "🔗终局：危险共生体\n（好感度："+affection+"）" },
+                { threshold: 100, text: "💃终局：血色探戈\n（好感度："+affection+"）" }
+            ];
+            
+            const result = endings.reverse().find(e => affection >= e.threshold);
+            addMessage(`██ 加密连接已断开 ██\n${result.text}`);
+        }
+
+        async function startChat() {
+            chatBox.innerHTML = '';
+            document.querySelector('.options').innerHTML = '🔄 连接加密频道中...';
+            await new Promise(r => setTimeout(r, 2000));
+            chatPhase = 0;
+            affection = 0;
+            await showNextDialogue();
+        }
+
+        // 暴露函数给按钮
+        window.selectOption = (index) => selectOption(dialogues[chatPhase].options[index]);
+        window.startChat = startChat;
+    </script>
+</body>
+</html>
