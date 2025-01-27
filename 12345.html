@@ -118,6 +118,7 @@
     </div>
 
     <script>
+        // 增强版对话系统
         const chatBox = document.getElementById("chat-box");
         let affection = 0;
         let dialogueIndex = 0;
@@ -126,20 +127,116 @@
             { 
                 text: "马特：（手指擦过嘴角淤青）深夜造访我的事务所可不像是普通社交，雇佣兵小姐。这次的目标是我还是我的城市？", 
                 options: [
-                    { text: "你的自恋程度和你的听力一样惊人，默多克。金并的货船明晚进港，我只是来确认你不会碍事。", effect: +15 },
-                    { text: "来收上次你弄坏我匕首的维修费，盲律师。三百美元现金，现在。", effect: +10 },
-                    { text: "与你无关。", effect: -20 }
+                    { 
+                        text: "你的自恋程度和你的听力一样惊人，默多克。金并的货船明晚进港，我只是来确认你不会碍事。",
+                        effect: +15,
+                        response: "马特：（轻笑）关心我的安全？你该知道阻止那艘船会让我身上多三个弹孔" 
+                    },
+                    { 
+                        text: "来收上次你弄坏我匕首的维修费，盲律师。三百美元现金，现在。",
+                        effect: +10,
+                        response: "马特：（摸出钞票）记得开发票，或许能抵销你上周打碎我事务所玻璃的费用" 
+                    },
+                    { 
+                        text: "与你无关。",
+                        effect: -20,
+                        response: "马特：（突然抓住你的手腕）你脉搏快了12%，每次说谎都这样吗？" 
+                    }
                 ] 
+            },
+            { 
+                text: "马特：（轻笑）关心罪犯运输路线？这可不像你。需要我准备庆功香槟还是急救箱？",
+                options: [
+                    { 
+                        text: "留着你的酒精棉处理伤口吧。等子弹擦过你耳边的声音响起时，别指望我会调转枪口。",
+                        effect: +20,
+                        response: "马特：（凑近耳语）上次在布鲁克林，那颗本该命中我心脏的子弹...偏了2.7毫米" 
+                    },
+                    { 
+                        text: "比起香槟，你不如考虑买副新墨镜。现在戴的这款沾了太多血渍。",
+                        effect: +15,
+                        response: "马特：（擦拭镜片）至少其中三处血迹来自保护你的行动，记得吗？" 
+                    },
+                    { 
+                        text: "随便你怎么想。",
+                        effect: -15,
+                        response: "马特：（突然沉默）你的呼吸频率变了...在隐藏什么？" 
+                    }
+                ] 
+            },
+            // 新增对话层级
+            {
+                text: "马特：（突然靠近）你身上有硝烟和...龙舌兰的味道。墨西哥的任务不顺利？",
+                options: [
+                    { 
+                        text: "管好你该死的超级嗅觉。（枪械上膛声）再往前半步就让你尝尝铅制止痛药。",
+                        effect: +25,
+                        response: "马特：（不退反进）这把柯尔特M45的空仓挂机声...你根本没装弹夹" 
+                    },
+                    { 
+                        text: "比起关心我的酒单，不如担心明天报纸头条会不会出现红衣义警的讣告。",
+                        effect: +20,
+                        response: "马特：（微笑）那你会为我选墓志铭吗？'这里躺着个爱管闲事的瞎子'如何？" 
+                    },
+                    { 
+                        text: "与你无关。",
+                        effect: -30,
+                        response: "马特：（嗅闻动作）龙舌兰里掺了抗生素...你受伤了" 
+                    }
+                ]
+            },
+            // 更多新增对话
+            {
+                text: "马特：（突然抓住你的手腕）上次在码头你故意打偏了0.3度角，为什么？",
+                options: [
+                    { 
+                        text: "（甩开手）因为看腻了神父给你主持葬礼的戏码，换个剧本更有趣。",
+                        effect: +30,
+                        response: "马特：（低笑）承认吧，你享受这种猫鼠游戏的次数比我还多" 
+                    },
+                    { 
+                        text: "需要我提醒你现在的脉搏速度比平时快17%吗，圣徒先生？",
+                        effect: +25,
+                        response: "马特：（指尖划过你枪套）你的心跳频率...和那晚在冷藏库时一样" 
+                    },
+                    { 
+                        text: "你听错了。",
+                        effect: -40,
+                        response: "马特：（举起盲杖）需要我用这个'提醒'你当时的站位吗？" 
+                    }
+                ]
+            },
+            {
+                text: "马特：（摘下墨镜）你知道我能在雨声中分辨出你的心跳频率。",
+                options: [
+                    { 
+                        text: "（枪口抵住他胸口）那应该也能听出这把柯尔特M45的击锤已经扳到第二档。",
+                        effect: +35,
+                        response: "马特：（握住枪管贴紧心脏）要开枪就现在，否则我就要问那个你一直逃避的问题了" 
+                    },
+                    { 
+                        text: "变态的听力配上更变态的道德准则，真是绝配。",
+                        effect: +30,
+                        response: "马特：（突然靠近）而你，用杀戮本能包裹着救赎渴望...我们真是绝配" 
+                    },
+                    { 
+                        text: "哦，是吗。",
+                        effect: -50,
+                        response: "马特：（戴上墨镜）下次说谎前，记得先控制颈动脉的震动频率" 
+                    }
+                ]
             }
         ];
 
+        // 增强版消息处理
         function addMessage(text, isPlayer = false) {
             const messageContainer = document.createElement("div");
             messageContainer.classList.add("message");
 
             const avatar = document.createElement("img");
             avatar.classList.add("avatar");
-            avatar.src = isPlayer ? "./assets/player-avatar.png" : "./assets/npc-avatar.png";
+            // 假设存在头像资源文件
+            avatar.src = isPlayer ? "player.png" : "matt.png";
 
             const messageBubble = document.createElement("div");
             messageBubble.textContent = text;
@@ -152,11 +249,49 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        // 改进的对话流程控制
+        function processOption(option) {
+            // 显示玩家选择
+            addMessage(option.text, true);
+            
+            // 更新好感度
+            affection += option.effect;
+            
+            // 显示马特回应
+            setTimeout(() => {
+                addMessage(option.response);
+                
+                // 继续下一个对话
+                setTimeout(() => {
+                    dialogueIndex++;
+                    if(dialogueIndex >= dialogues.length) {
+                        showFinalResult();
+                        return;
+                    }
+                    showDialogue();
+                }, 1000);
+            }, 800);
+        }
+
+        function showFinalResult() {
+            const endings = {
+                "-100": "终局：你们在雨夜的天台持枪相对",
+                "-50": "终局：他最后一次为你包扎伤口",
+                "0": "终局：你们成为熟悉的陌生人", 
+                "50": "终局：危险搭档的黎明将至",
+                "100": "终局：子弹与玫瑰的悖论共生"
+            };
+            
+            let resultKey = Object.keys(endings).reduce((prev, curr) => 
+                Math.abs(curr - affection) < Math.abs(prev - affection) ? curr : prev
+            );
+            
+            addMessage(`██ 危险游戏结束 ██\n最终指数：${affection}\n${endings[resultKey]}`);
+        }
+
         function showDialogue() {
-            if (dialogueIndex >= dialogues.length) {
-                addMessage(`危险游戏结束，你的最终危险指数：${affection}`);
-                return;
-            }
+            const existingOptions = chatBox.querySelector('.options');
+            if (existingOptions) existingOptions.remove();
 
             const currentDialogue = dialogues[dialogueIndex];
             addMessage(currentDialogue.text);
@@ -167,15 +302,7 @@
             currentDialogue.options.forEach(option => {
                 const button = document.createElement("button");
                 button.textContent = option.text;
-                button.onclick = () => {
-                    addMessage(option.text, true); // **先显示玩家的选项**
-                    affection += option.effect;
-                    
-                    // **删除选项后，直接调用下一轮对话**
-                    optionsBox.remove();
-                    dialogueIndex++;
-                    showDialogue();
-                };
+                button.onclick = () => processOption(option);
                 optionsBox.appendChild(button);
             });
 
@@ -193,4 +320,4 @@
         window.startDialogue = startDialogue;
     </script>
 </body>
-</html>
+</html>                    
