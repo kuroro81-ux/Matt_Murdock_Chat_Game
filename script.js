@@ -1,6 +1,11 @@
 const chatBox = document.getElementById("chat-box");
 
-let affection = 0;
+// 角色头像
+const playerAvatar = "./assets/player-avatar.png";
+const npcAvatar = "./assets/npc-avatar.png";
+
+let affection = 0; // 初始好感度
+let dialogueIndex = 0;
 
 const dialogues = [
     { 
@@ -29,8 +34,7 @@ const dialogues = [
     }
 ];
 
-let dialogueIndex = 0;
-
+// ** 添加消息到聊天框 **
 function addMessage(text, isPlayer = false) {
     const messageContainer = document.createElement("div");
     messageContainer.classList.add("message");
@@ -42,12 +46,12 @@ function addMessage(text, isPlayer = false) {
     messageBubble.textContent = text;
 
     if (isPlayer) {
-        avatar.src = "./assets/player-avatar.png";
+        avatar.src = playerAvatar;
         messageBubble.classList.add("player-message");
         messageContainer.appendChild(messageBubble);
         messageContainer.appendChild(avatar);
     } else {
-        avatar.src = "./assets/npc-avatar.png";
+        avatar.src = npcAvatar;
         messageBubble.classList.add("npc-message");
         messageContainer.appendChild(avatar);
         messageContainer.appendChild(messageBubble);
@@ -57,6 +61,7 @@ function addMessage(text, isPlayer = false) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// ** 显示对话 **
 function showDialogue() {
     if (dialogueIndex >= dialogues.length) {
         addMessage("对话结束，你的好感度：" + affection);
@@ -66,8 +71,10 @@ function showDialogue() {
     const dialogue = dialogues[dialogueIndex];
     addMessage(dialogue.text);
 
+    // 清除旧选项
     const optionsBox = document.createElement("div");
     optionsBox.classList.add("options");
+    chatBox.appendChild(optionsBox);
 
     dialogue.options.forEach(option => {
         const button = document.createElement("button");
@@ -80,15 +87,17 @@ function showDialogue() {
         };
         optionsBox.appendChild(button);
     });
-
-    chatBox.appendChild(optionsBox);
 }
 
+// ** 触发开始对话 **
 function startDialogue() {
-    document.getElementById("input-container").innerHTML = "";
+    chatBox.innerHTML = ""; // 清空之前内容
+    dialogueIndex = 0; // 重置对话进程
     showDialogue();
 }
 
-window.onload = () => {
-    chatBox.innerHTML = "<p>点击按钮开始对话...</p>";
-};
+// ** 初始化按钮事件 **
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("input-container").innerHTML = 
+        `<button onclick="startDialogue()">开始对话</button>`;
+});
