@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>夜莺与盲律师</title>
     <style>
         body {
@@ -49,7 +49,6 @@
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        /* 统一NPC和玩家消息的字体大小 */
         .npc-message,
         .player-message {
             font-size: 14px;
@@ -132,16 +131,6 @@
             background: #4A3A4B;
         }
 
-        .avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            margin-right: 10px;
-            vertical-align: middle;
-            background-color: #4A3A4B;
-            display: inline-block;
-        }
-
         .chat-container::-webkit-scrollbar {
             width: 6px;
         }
@@ -154,7 +143,6 @@
         .chat-container::-webkit-scrollbar-track {
             background: #0F0F12;
         }
-
     </style>
 </head>
 <body>
@@ -175,10 +163,7 @@
         let affection = 0;
         let chatPhase = 0;
 
-        /* 
-         * 将 npc 文本拆分为数组，模拟多条气泡对话 
-         * 如果想继续拆分别的段落也可以使用同样方式
-         */
+        // 对话内容
         const dialogues = [
             {
                 npc: [
@@ -241,19 +226,16 @@
             }
         ];
 
+        /**
+         * 创建消息元素
+         * @param {string} text    - 消息文本
+         * @param {boolean} isPlayer - 是否为玩家消息
+         */
         function createMessage(text, isPlayer) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isPlayer ? 'player-message' : 'npc-message'}`;
-            
-            // 添加头像（只在NPC消息中添加）
-            if (!isPlayer) {
-                const avatar = document.createElement('img');
-                avatar.className = 'avatar';
-                avatar.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234A3A4B'/%3E%3Cpath d='M30,65 Q50,80 70,65 M40,40 Q50,30 60,40' stroke='%23E8D0E0' stroke-width='4' fill='none'/%3E%3C/svg%3E";
-                messageDiv.prepend(avatar);
-            }
 
-            // 处理是否为“发送”关键字的显示
+            // 处理是否包含“*发送”关键字
             text.split('\n').forEach(line => {
                 const p = document.createElement('p');
                 if(line.includes("*发送")) {
@@ -277,11 +259,15 @@
             
             const container = document.createElement('div');
             container.appendChild(messageDiv);
+            // NPC 消息在下方附加已读时间
             if(!isPlayer) container.appendChild(timeStamp);
             
             return container;
         }
 
+        /**
+         * 显示“正在输入”动画
+         */
         function showTyping() {
             const typing = document.createElement('div');
             typing.className = 'typing-indicator';
@@ -291,8 +277,13 @@
             return typing;
         }
 
+        /**
+         * 添加消息到聊天框
+         * @param {string} text    - 消息文本
+         * @param {boolean} isPlayer - 是否为玩家消息
+         */
         async function addMessage(text, isPlayer = false) {
-            // 如果是NPC，先展示“正在输入”
+            // NPC 消息先显示“正在输入”
             if(!isPlayer) {
                 const typing = showTyping();
                 await new Promise(r => setTimeout(r, 1500));
@@ -304,18 +295,23 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        /**
+         * 当玩家点击某个选项时的处理
+         * @param {Object} option - 选项数据对象
+         */
         async function selectOption(option) {
-            // 清除选项
+            // 清除当前选项
             document.querySelector('.options').innerHTML = '';
             
-            // 玩家消息
+            // 先显示玩家消息
             await addMessage(option.text, true);
             affection += option.effect;
             
-            // NPC回应
+            // NPC 回应
             await new Promise(r => setTimeout(r, 800));
-            await addMessage(option.response);
+            await addMessage(option.response, false);
             
+            // 进入下一阶段
             chatPhase++;
             if(chatPhase < dialogues.length) {
                 await showNextDialogue();
@@ -324,22 +320,22 @@
             }
         }
 
+        /**
+         * 显示下一阶段对话
+         */
         async function showNextDialogue() {
             const current = dialogues[chatPhase];
 
-            /*
-             * 判断 npc 是否为数组，如果是数组，则按顺序发送多条消息；
-             * 如果只是字符串，则发送一次。
-             */
+            // NPC 消息可能是数组，也可能是字符串
             if(Array.isArray(current.npc)) {
-                for(const text of current.npc) {
-                    await addMessage(text, false);
+                for(const textPart of current.npc) {
+                    await addMessage(textPart, false);
                 }
             } else {
                 await addMessage(current.npc, false);
             }
 
-            // 显示选项
+            // 显示选项按钮
             const optionsDiv = document.querySelector('.options');
             optionsDiv.innerHTML = current.options.map((opt, i) => `
                 <button onclick="selectOption(${i})">
@@ -348,6 +344,9 @@
             `).join('');
         }
 
+        /**
+         * 对话结束后根据好感度显示不同的终局
+         */
         function showEnding() {
             const endings = [
                 { threshold: -100, text: "终局：枪口下的白玫瑰（好感度：" + affection + "）" },
@@ -357,12 +356,15 @@
                 { threshold: 100,   text: "终局：血色探戈（好感度：" + affection + "）" }
             ];
             
-            // 从最高阈值往下匹配
             const result = endings.reverse().find(e => affection >= e.threshold);
-            addMessage("██ 加密连接已断开 ██\n" + result.text);
+            addMessage("██ 加密连接已断开 ██\n" + result.text, false);
         }
 
+        /**
+         * 开始对话
+         */
         async function startChat() {
+            // 重置聊天区和好感度
             chatBox.innerHTML = '';
             document.querySelector('.options').innerHTML = '连接加密频道中...';
             await new Promise(r => setTimeout(r, 2000));
@@ -371,7 +373,7 @@
             await showNextDialogue();
         }
 
-        // 暴露函数给按钮使用
+        // 将函数暴露给全局，供按钮调用
         window.selectOption = (index) => selectOption(dialogues[chatPhase].options[index]);
         window.startChat = startChat;
     </script>
