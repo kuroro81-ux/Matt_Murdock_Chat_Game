@@ -1,5 +1,4 @@
 const chatBox = document.getElementById("chat-box");
-const optionsBox = document.getElementById("options");
 const playerInput = document.getElementById("player-input");
 
 let affection = 0; // 好感度
@@ -26,18 +25,42 @@ const dialogues = [
 let dialogueIndex = 0;
 
 function addMessage(text, isPlayer = false) {
-    const message = document.createElement("div");
-    message.textContent = text;
-    message.style.textAlign = isPlayer ? "right" : "left";
-    chatBox.appendChild(message);
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message");
+
+    const avatar = document.createElement("img");
+    avatar.classList.add("avatar");
+
+    const messageBubble = document.createElement("div");
+    messageBubble.textContent = text;
+
+    if (isPlayer) {
+        avatar.src = "assets/player-avatar.png"; // 你的玩家头像
+        messageBubble.classList.add("player-message");
+        messageContainer.appendChild(messageBubble);
+        messageContainer.appendChild(avatar);
+    } else {
+        avatar.src = "assets/npc-avatar.png"; // 你的 NPC 头像
+        messageBubble.classList.add("npc-message");
+        messageContainer.appendChild(avatar);
+        messageContainer.appendChild(messageBubble);
+    }
+
+    chatBox.appendChild(messageContainer);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function showDialogue() {
-    optionsBox.innerHTML = "";
-    const dialogue = dialogues[dialogueIndex];
+    if (dialogueIndex >= dialogues.length) {
+        addMessage("游戏结束！你的好感度：" + affection);
+        return;
+    }
 
+    const dialogue = dialogues[dialogueIndex];
     addMessage(dialogue.text);
+
+    const optionsBox = document.createElement("div");
+    optionsBox.classList.add("options");
 
     dialogue.options.forEach(option => {
         const button = document.createElement("button");
@@ -46,17 +69,12 @@ function showDialogue() {
             affection += option.effect;
             addMessage(option.text, true);
             dialogueIndex++;
-            if (dialogueIndex < dialogues.length) {
-                setTimeout(showDialogue, 500);
-            } else {
-                addMessage("游戏结束！你的好感度：" + affection);
-                optionsBox.innerHTML = "";
-            }
+            setTimeout(showDialogue, 500);
         };
         optionsBox.appendChild(button);
     });
 
-    optionsBox.classList.remove("hidden");
+    chatBox.appendChild(optionsBox);
 }
 
 window.onload = () => {
