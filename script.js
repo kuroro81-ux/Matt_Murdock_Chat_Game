@@ -35,12 +35,12 @@ function addMessage(text, isPlayer = false) {
     messageBubble.textContent = text;
 
     if (isPlayer) {
-        avatar.src = "assets/player-avatar.png"; // 你的玩家头像
+        avatar.src = "./assets/player-avatar.png"; // 玩家头像
         messageBubble.classList.add("player-message");
         messageContainer.appendChild(messageBubble);
         messageContainer.appendChild(avatar);
     } else {
-        avatar.src = "assets/npc-avatar.png"; // 你的 NPC 头像
+        avatar.src = "./assets/npc-avatar.png"; // NPC 头像
         messageBubble.classList.add("npc-message");
         messageContainer.appendChild(avatar);
         messageContainer.appendChild(messageBubble);
@@ -75,6 +75,14 @@ function showDialogue() {
     });
 
     chatBox.appendChild(optionsBox);
+}
+
+function sendMessage() {
+    const text = playerInput.value.trim();
+    if (text) {
+        addMessage(text, true);
+        playerInput.value = ""; // 清空输入框
+    }
 }
 
 window.onload = () => {
