@@ -20,6 +20,7 @@
             display: flex;
             justify-content: space-between;
             font-size: 14px;
+            font-weight: bold;
         }
 
         .chat-container {
@@ -28,6 +29,9 @@
             height: 90vh;
             display: flex;
             flex-direction: column;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         #chat-box {
@@ -35,12 +39,21 @@
             overflow-y: auto;
             padding: 10px;
             background: #0F0F12;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
         }
 
         .message {
             max-width: 80%;
             margin: 15px 0;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* 统一NPC和玩家消息的字体大小 */
+        .npc-message,
+        .player-message {
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         .npc-message {
@@ -65,20 +78,24 @@
             font-size: 10px;
             color: #6A5D6E;
             margin: 5px 10px;
+            text-align: right;
         }
 
         .typing-indicator {
             display: flex;
             padding: 8px;
             color: #B7608A;
+            font-style: italic;
             animation: typing 1s infinite;
         }
 
         .media-message {
-            background: #000;
+            background: #222;
             border-radius: 10px;
-            padding: 8px;
+            padding: 10px;
             margin: 5px 0;
+            text-align: center;
+            font-weight: bold;
         }
 
         @keyframes typing {
@@ -92,173 +109,64 @@
         }
 
         .options {
-            margin: 10px;
             border-top: 1px solid #3A2D39;
-            padding-top: 15px;
+            padding: 15px;
+            background: #1F1D1F;
         }
 
-body {
-    margin: 0;
-    padding: 0;
-    background: #1A1A1A;
-    color: #E0C0D0;
-    font-family: 'Segoe UI', sans-serif;
-}
+        button {
+            background: #3A2D39;
+            border: none;
+            color: #E0C0D0;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 20px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease-in-out;
+        }
 
-.status-bar {
-    background: #2D2C2E;
-    padding: 8px;
-    color: #B7608A;
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.chat-container {
-    max-width: 375px;
-    margin: 20px auto;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-#chat-box {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px;
-    background: #0F0F12;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-
-.message {
-    max-width: 80%;
-    margin: 15px 0;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.npc-message {
-    background: #4A3A4B;
-    color: #E8D0E0;
-    border-radius: 15px 15px 15px 3px;
-    padding: 12px;
-    margin-left: 10px;
-    position: relative;
-}
-
-.player-message {
-    background: #B7608A;
-    color: #FFF;
-    border-radius: 15px 15px 3px 15px;
-    padding: 12px;
-    margin-right: 10px;
-    margin-left: auto;
-}
-
-.timestamp {
-    font-size: 10px;
-    color: #6A5D6E;
-    margin: 5px 10px;
-    text-align: right;
-}
-
-.typing-indicator {
-    display: flex;
-    padding: 8px;
-    color: #B7608A;
-    font-style: italic;
-    animation: typing 1s infinite;
-}
-
-.media-message {
-    background: #222;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 5px 0;
-    text-align: center;
-    font-weight: bold;
-}
-
-@keyframes typing {
-    from { opacity: 0.5; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.options {
-    border-top: 1px solid #3A2D39;
-    padding: 15px;
-    background: #1F1D1F;
-}
-
-button {
-    background: #3A2D39;
-    border: none;
-    color: #E0C0D0;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 20px;
-    width: 100%;
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s ease-in-out;
-}
-
-button:hover {
-    background: #4A3A4B;
-}
-
-.avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 10px;
-    vertical-align: middle;
-    background-color: #4A3A4B;
-    display: inline-block;
-}
-
-.chat-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.chat-container::-webkit-scrollbar-thumb {
-    background: #6A5D6E;
-    border-radius: 10px;
-}
-
-.chat-container::-webkit-scrollbar-track {
-    background: #0F0F12;
-}
+        button:hover {
+            background: #4A3A4B;
+        }
 
         .avatar {
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-right: 10px;
             vertical-align: middle;
+            background-color: #4A3A4B;
+            display: inline-block;
         }
+
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #6A5D6E;
+            border-radius: 10px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: #0F0F12;
+        }
+
     </style>
 </head>
 <body>
     <div class="status-bar">
-        <span>📶 5G | 97%</span>
+        <span>5G | 97%</span>
         <span>03:47</span>
     </div>
     
     <div class="chat-container">
         <div id="chat-box"></div>
         <div class="options">
-            <button onclick="startChat()">📱 开始加密对话</button>
+            <button onclick="startChat()">开始加密对话</button>
         </div>
     </div>
 
@@ -267,59 +175,77 @@ button:hover {
         let affection = 0;
         let chatPhase = 0;
 
+        /* 
+         * 将 npc 文本拆分为数组，模拟多条气泡对话 
+         * 如果想继续拆分别的段落也可以使用同样方式
+         */
         const dialogues = [
-    {
-        npc: `马特：*震动*\n（发送模糊的屋顶监控截图）\n"03:47的访客该交停车费了。\n上次的弹孔账单还没结清？"`,
-        options: [
             {
-                text: `"你个盲人为什么能用手机聊天？\n这是哪个黑帮开发的黑科技？"`,
-                effect: +10,
-                response: `马特：*正在输入...*\n"别忘了，我的听力能分辨你的指纹敲击频率。\n再说，我认识的黑客比黑帮多。"`,
+                npc: [
+                    "马特：*震动*",
+                    "（发送模糊的屋顶监控截图）",
+                    "03:47的访客该交停车费了。",
+                    "上次的弹孔账单还没结清？"
+                ],
+                options: [
+                    {
+                        text: `"你个盲人为什么能用手机聊天？\n这是哪个黑帮开发的黑科技？"`,
+                        effect: +10,
+                        response: `马特：*正在输入...*\n"别忘了，我的听力能分辨你的指纹敲击频率。\n再说，我认识的黑客比黑帮多。"`
+                    },
+                    {
+                        text: `"停车费？你确定你不是在搞保护费生意？\n让我看看你今晚打劫了几个倒霉鬼？"`,
+                        effect: +15,
+                        response: `马特：*已读*\n"放心，我没抢你的单。\n而且比起你直接拆车，我的方式更温和。"`
+                    }
+                ]
             },
             {
-                text: `"停车费？你确定你不是在搞保护费生意？\n让我看看你今晚打劫了几个倒霉鬼？"`,
-                effect: +15,
-                response: `马特：*已读*\n"放心，我没抢你的单。\n而且比起你直接拆车，我的方式更温和。"`,
-            }
-        ]
-    },
-    {
-        npc: `马特：*语音消息 12s*\n（背景枪声）\n"金并的货船有...（爆炸声）\n十二个孩子...（喘息）需要..."`,
-        options: [
-            {
-                text: `"麻烦你先喘匀了再说话。\n你要救人？还是让我去送人？"`,
-                effect: +30,
-                response: `马特：*加密文件接收*\n"不希望你送人。\n但如果要杀一个救十二个…\n你的刀快还是我的拳头狠？"`,
+                npc: [
+                    "马特：*语音消息 12s*",
+                    "(背景枪声)",
+                    "金并的货船有...（爆炸声）",
+                    "十二个孩子...（喘息）需要..."
+                ],
+                options: [
+                    {
+                        text: `"麻烦你先喘匀了再说话。\n你要救人？还是让我去送人？"`,
+                        effect: +30,
+                        response: `马特：*加密文件接收*\n"不希望你送人。\n但如果要杀一个救十二个…\n你的刀快还是我的拳头狠？"`
+                    },
+                    {
+                        text: `"十二个孩子？金并的生意现在也做孤儿院了吗？"`,
+                        effect: +10,
+                        response: `马特：*已读*\n"比孤儿院更糟。\n这些孩子下周就要被送去做‘商品’。\n你要跟我一起拦住吗？"`
+                    }
+                ]
             },
             {
-                text: `"十二个孩子？金并的生意现在也做孤儿院了吗？"`,
-                effect: +10,
-                response: `马特：*已读*\n"比孤儿院更糟。\n这些孩子下周就要被送去做‘商品’。\n你要跟我一起拦住吗？"`,
+                npc: [
+                    "马特：*发送舞蹈教学链接*",
+                    "欠你的探戈课。",
+                    "（附：防弹舞鞋购买链接）"
+                ],
+                options: [
+                    {
+                        text: `"盲人探戈？你是要证明我今晚不会踩你脚？"`,
+                        effect: +25,
+                        response: `马特：*位置共享开启*\n"我能听见你的呼吸频率变化。\n你不信的话，可以试试看？"`
+                    },
+                    {
+                        text: `"防弹舞鞋？\n你是想跳舞，还是想带我去刺杀舞会主角？"`,
+                        effect: +35,
+                        response: `马特：*已读*\n"如果你是我的舞伴，\n那舞会可能会变成修罗场。"`
+                    }
+                ]
             }
-        ]
-    },
-    {
-        npc: `马特：*发送舞蹈教学链接*\n"欠你的探戈课。\n（附：防弹舞鞋购买链接）"`,
-        options: [
-            {
-                text: `"盲人探戈？你是要证明我今晚不会踩你脚？"`,
-                effect: +25,
-                response: `马特：*位置共享开启*\n"我能听见你的呼吸频率变化。\n你不信的话，可以试试看？"`,
-            },
-            {
-                text: `"防弹舞鞋？\n你是想跳舞，还是想带我去刺杀舞会主角？"`,
-                effect: +35,
-                response: `马特：*已读*\n"如果你是我的舞伴，\n那舞会可能会变成修罗场。"`,
-            }
-        ]
-    }
-];
+        ];
 
         function createMessage(text, isPlayer) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isPlayer ? 'player-message' : 'npc-message'}`;
             
-            // 添加头像
+            // 添加头像（只在NPC消息中添加）
             if (!isPlayer) {
                 const avatar = document.createElement('img');
                 avatar.className = 'avatar';
@@ -327,11 +253,11 @@ button:hover {
                 messageDiv.prepend(avatar);
             }
 
-            // 处理多媒体内容
+            // 处理是否为“发送”关键字的显示
             text.split('\n').forEach(line => {
                 const p = document.createElement('p');
                 if(line.includes("*发送")) {
-                    p.innerHTML = `📎 ${line.replace('*发送', '')}`;
+                    p.innerHTML = `附件 ${line.replace('*发送', '')}`;
                     p.style.color = '#B7608A';
                 } else {
                     p.textContent = line;
@@ -347,7 +273,7 @@ button:hover {
             }).replace('24:', '00:');
             const timeStamp = document.createElement('div');
             timeStamp.className = 'timestamp';
-            timeStamp.textContent = isPlayer ? '✓ 已送达' : `🕶 已读 ${time}`;
+            timeStamp.textContent = isPlayer ? '已送达' : `已读 ${time}`;
             
             const container = document.createElement('div');
             container.appendChild(messageDiv);
@@ -359,13 +285,14 @@ button:hover {
         function showTyping() {
             const typing = document.createElement('div');
             typing.className = 'typing-indicator';
-            typing.innerHTML = '🕶 马特正在输入...';
+            typing.innerHTML = '马特正在输入...';
             chatBox.appendChild(typing);
             chatBox.scrollTop = chatBox.scrollHeight;
             return typing;
         }
 
         async function addMessage(text, isPlayer = false) {
+            // 如果是NPC，先展示“正在输入”
             if(!isPlayer) {
                 const typing = showTyping();
                 await new Promise(r => setTimeout(r, 1500));
@@ -381,10 +308,11 @@ button:hover {
             // 清除选项
             document.querySelector('.options').innerHTML = '';
             
+            // 玩家消息
             await addMessage(option.text, true);
             affection += option.effect;
             
-            // 显示NPC回应
+            // NPC回应
             await new Promise(r => setTimeout(r, 800));
             await addMessage(option.response);
             
@@ -398,8 +326,20 @@ button:hover {
 
         async function showNextDialogue() {
             const current = dialogues[chatPhase];
-            await addMessage(current.npc);
-            
+
+            /*
+             * 判断 npc 是否为数组，如果是数组，则按顺序发送多条消息；
+             * 如果只是字符串，则发送一次。
+             */
+            if(Array.isArray(current.npc)) {
+                for(const text of current.npc) {
+                    await addMessage(text, false);
+                }
+            } else {
+                await addMessage(current.npc, false);
+            }
+
+            // 显示选项
             const optionsDiv = document.querySelector('.options');
             optionsDiv.innerHTML = current.options.map((opt, i) => `
                 <button onclick="selectOption(${i})">
@@ -410,27 +350,28 @@ button:hover {
 
         function showEnding() {
             const endings = [
-                { threshold: -100, text: "🌹终局：枪口下的白玫瑰\n（好感度："+affection+"）" },
-                { threshold: -50, text: "💔终局：永不愈合的旧伤\n（好感度："+affection+"）" },
-                { threshold: 0, text: "🌃终局：熟悉的陌生人\n（好感度："+affection+"）" },
-                { threshold: 50, text: "🔗终局：危险共生体\n（好感度："+affection+"）" },
-                { threshold: 100, text: "💃终局：血色探戈\n（好感度："+affection+"）" }
+                { threshold: -100, text: "终局：枪口下的白玫瑰（好感度：" + affection + "）" },
+                { threshold: -50,  text: "终局：永不愈合的旧伤（好感度：" + affection + "）" },
+                { threshold: 0,     text: "终局：熟悉的陌生人（好感度：" + affection + "）" },
+                { threshold: 50,    text: "终局：危险共生体（好感度：" + affection + "）" },
+                { threshold: 100,   text: "终局：血色探戈（好感度：" + affection + "）" }
             ];
             
+            // 从最高阈值往下匹配
             const result = endings.reverse().find(e => affection >= e.threshold);
-            addMessage(`██ 加密连接已断开 ██\n${result.text}`);
+            addMessage("██ 加密连接已断开 ██\n" + result.text);
         }
 
         async function startChat() {
             chatBox.innerHTML = '';
-            document.querySelector('.options').innerHTML = '🔄 连接加密频道中...';
+            document.querySelector('.options').innerHTML = '连接加密频道中...';
             await new Promise(r => setTimeout(r, 2000));
             chatPhase = 0;
             affection = 0;
             await showNextDialogue();
         }
 
-        // 暴露函数给按钮
+        // 暴露函数给按钮使用
         window.selectOption = (index) => selectOption(dialogues[chatPhase].options[index]);
         window.startChat = startChat;
     </script>
