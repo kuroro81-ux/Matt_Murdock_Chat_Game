@@ -56,6 +56,14 @@
   margin: 10px 0;
 }
 
+.message .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* 保持圆形 */
+  object-fit: cover; /* 确保图片不变形 */
+  flex-shrink: 0; /* 防止 flex 影响尺寸 */
+}
+
 .npc-message {
   background: rgb(84, 63, 75);
   padding: 10px;
@@ -73,12 +81,6 @@
   color: rgb(250, 220, 240);
   margin-right: 50px; /* 让玩家消息和头像对齐 */
   align-self: flex-end;
-}
-
-.message .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
 }
 
 .message.npc {
