@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马特·默多克的对话</title>
+    <style>
+        body {
+          margin: 0;
+          padding: 20px;
+          background-color: #000000; 
+          color: rgb(200, 180, 190);
+          font-family: 'Arial', sans-serif;
+          text-align: center;
+        }
+
+        h1 {
+          font-size: 26px;
+          margin: 0 0 5px 0;
+          color: rgb(220, 180, 190);
+        }
+
+        .subtitle {
+          font-size: 14px;
+          color: rgb(183, 96, 138);
+          margin-bottom: 20px;
+        }
+
+        .main-container {
+          background: rgb(45, 40, 44);
+          padding: 20px;
+          border-radius: 20px;
+          max-width: 600px;
+          margin: 0 auto;
+          box-shadow: 0 0 10px rgba(183, 96, 138, 0.8);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+
+        #chat-box {
+          width: 100%;
+          max-height: 400px;
+          overflow-y: auto;
+          text-align: left;
+          padding: 10px;
+          background: rgb(30, 30, 35);
+          border-radius: 10px;
+          box-shadow: 0 0 8px rgba(84, 63, 75, 0.6);
+        }
+
+        .message {
+          display: flex;
+          align-items: flex-start;
+          margin: 10px 0;
+        }
+
+        .avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        .npc-message {
+          background: rgb(84, 63, 75);
+          padding: 10px;
+          border-radius: 10px;
+          max-width: 70%;
+          color: rgb(220, 180, 200);
+        }
+
+        .player-message {
+          background: rgb(183, 96, 138);
+          padding: 10px;
+          border-radius: 10px;
+          max-width: 70%;
+          align-self: flex-end;
+          color: rgb(250, 220, 240);
+        }
+
+        button {
+          background: none;
+          border: 1px solid rgb(183, 96, 138);
+          color: rgb(183, 96, 138);
+          font-size: 14px;
+          cursor: pointer;
+          padding: 8px 12px;
+          border-radius: 6px;
+          margin-top: 10px;
+        }
+
+        button:hover {
+          background-color: rgba(183, 96, 138, 0.2);
+        }
+
+        .options {
+          margin: 10px 0;
+        }
+
+        .options button {
+          display: block;
+          width: 100%;
+          margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>地狱厨房的夜晚</h1>
+    <p class="subtitle">与马特·默多克的危险博弈</p>
+
+    <div class="main-container">
+        <div id="chat-box"></div>
+        <div id="input-container">
+            <button onclick="startDialogue()">开始对话</button>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById("chat-box");
+        let affection = 0;
+        let dialogueIndex = 0;
+
+        const dialogues = [
+            { 
+                text: "马特：（手指擦过嘴角淤青）深夜造访我的事务所可不像是普通社交，雇佣兵小姐。这次的目标是我还是我的城市？", 
+                options: [
+                    { text: "你的自恋程度和你的听力一样惊人，默多克。金并的货船明晚进港，我只是来确认你不会碍事。", effect: +15 },
+                    { text: "来收上次你弄坏我匕首的维修费，盲律师。三百美元现金，现在。", effect: +10 },
+                    { text: "与你无关。", effect: -20 }
+                ] 
+            }
+        ];
+
+        function addMessage(text, isPlayer = false) {
+            const messageContainer = document.createElement("div");
+            messageContainer.classList.add("message");
+
+            const avatar = document.createElement("img");
+            avatar.classList.add("avatar");
+            avatar.src = isPlayer ? "./assets/player-avatar.png" : "./assets/npc-avatar.png";
+
+            const messageBubble = document.createElement("div");
+            messageBubble.textContent = text;
+            messageBubble.className = isPlayer ? "player-message" : "npc-message";
+
+            messageContainer.appendChild(isPlayer ? messageBubble : avatar);
+            messageContainer.appendChild(isPlayer ? avatar : messageBubble);
+            
+            chatBox.appendChild(messageContainer);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function showDialogue() {
+            if (dialogueIndex >= dialogues.length) {
+                addMessage(`危险游戏结束，你的最终危险指数：${affection}`);
+                return;
+            }
+
+            const currentDialogue = dialogues[dialogueIndex];
+            addMessage(currentDialogue.text);
+
+            const optionsBox = document.createElement("div");
+            optionsBox.className = "options";
+            
+            currentDialogue.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option.text;
+                button.onclick = () => {
+                    addMessage(option.text, true); // **先显示玩家的选项**
+                    affection += option.effect;
+                    
+                    // **删除选项后，直接调用下一轮对话**
+                    optionsBox.remove();
+                    dialogueIndex++;
+                    showDialogue();
+                };
+                optionsBox.appendChild(button);
+            });
+
+            chatBox.appendChild(optionsBox);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function startDialogue() {
+            chatBox.innerHTML = "";
+            affection = 0;
+            dialogueIndex = 0;
+            showDialogue();
+        }
+
+        window.startDialogue = startDialogue;
+    </script>
+</body>
+</html>
