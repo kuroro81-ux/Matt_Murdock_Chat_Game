@@ -125,7 +125,10 @@
             <button onclick="startDialogue()">开始对话</button>
         </div>
     </div>
-
+    
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("input-container").querySelector("button").onclick = startDialogue;
+});
     <script>
         const chatBox = document.getElementById("chat-box");
         let affection = 0;
@@ -202,98 +205,92 @@
                 他们绑架了十二个孩子，准备运往东欧。
                 我需要你的帮助...以你的方式。"`,
                 options: [
- { 
-        text: `马特：（手指擦过嘴角淤青）
-            <span class="message-part">深夜造访我的事务所可不像是普通社交</span>
-            <span class="message-part">这次的目标是我还是我的城市？</span>`, 
-        options: [
-            { 
-                text: `<span class="message-part">你的自恋程度和你的听力一样惊人</span>
-                       <span class="message-part">金并的货船明晚进港，确认你不会碍事</span>`,
-                effect: +15,
-                response: `马特：（轻笑）
-                           <span class="message-part">关心我的安全？</span>
-                           <span class="message-part">你该知道阻止那艘船会让我身上多三个弹孔</span>` 
+                    {
+                        text: `"终于承认需要我了？
+                        不过我的价码可不便宜，默多克。"`,
+                        effect: +30,
+                        response: `马特：（掏出支票本）
+                        "钱不是问题。
+                        但我要你保证，这次...别像上次那样不告而别。
+                        至少留张字条？"`
+                    },
+                    {
+                        text: `"抱歉，这次不行。
+                        我有自己的任务要处理。"`,
+                        effect: -40,
+                        response: `马特：（握紧盲杖）
+                        "是弗兰克找过你了，对吗？
+                        他告诉你这是个陷阱...
+                        但他没说的是，那些孩子中有个是你的..."`
+                    },
+                    {
+                        text: `"别用道德绑架我。
+                        我不是你的义务警员。"`,
+                        effect: -50,
+                        response: `马特：（摘下墨镜）
+                        "我知道你妹妹的事...
+                        三年前被拐卖的那个女孩。
+                        这次可能是找到她的最后机会。"`
+                    }
+                ]
             },
-            // 新增选项
-            { 
-                text: `<span class="message-part">（踢开碎石发出摩尔斯电码）</span>
-                       <span class="message-part">三年前教你的密码用来防我？</span>`,
-                effect: +20,
-                response: `马特：（闪现到你身后）
-                           <span class="message-part">香水换了...</span>
-                           <span class="message-part">混着止血凝胶的味道？</span>` 
-            }
-        ]
-    },
-    // 新增武器库剧情
-    {
-        text: `马特：（金属碰撞声）
-            <span class="message-part">你留在安全屋的巴雷特M82</span>
-            <span class="message-part">我改装了扳机阻尼系统</span>`,
-        options: [
+            // 新增结局分支
             {
-                text: `<span class="message-part">（匕首抵喉）</span>
-                       <span class="message-part">谁允许你碰我的枪？</span>`,
-                effect: +30,
-                response: `马特：（喉结擦过刀锋）
-                           <span class="message-part">你右肘旧伤</span>
-                           <span class="message-part">扣动原装扳机会偏移0.07毫米</span>`
+                text: `马特：（递给你一个档案袋）
+                "这是所有情报。
+                选择权在你...像往常一样。"`,
+                options: [
+                    {
+                        text: `"这次行动后，我们两清了。
+                        别再出现在我的生活里。"`,
+                        effect: -100,
+                        response: `马特：（苦笑）
+                        "你知道这不可能。
+                        就像你无法真正离开这座城市...
+                        就像我无法停止追逐你的脚步。"`
+                    },
+                    {
+                        text: `"如果这次我死了...
+                        替我照顾好那只流浪猫。"`,
+                        effect: +50,
+                        response: `马特：（握住你的手）
+                        "你不会死的。
+                        我答应过要教会你跳探戈...
+                        在某个没有枪声的夜晚。"`
+                    },
+                    {
+                        text: `"给我24小时准备。
+                        这次...我们一起。"`,
+                        effect: +100,
+                        response: `马特：（微笑）
+                        "终于等到这句话了。
+                        顺便说一句...你今天的香水，
+                        和第一次见面时一样。"`
+                    }
+                ]
             }
-        ]
-    },
-    // 保留墨西哥任务对话并升级
-    {
-        text: `马特：（突然靠近）
-            <span class="message-part">你身上有硝烟和...</span>
-            <span class="message-part">龙舌兰的味道？墨西哥的任务？</span>`,
-        options: [
-            { 
-                text: `<span class="message-part">（枪口抵胸）</span>
-                       <span class="message-part">再往前半步就尝铅制止痛药</span>`,
-                effect: +25,
-                response: `马特：（不退反进）
-                           <span class="message-part">柯尔特M45的空仓挂机声...</span>
-                           <span class="message-part">你根本没装弹夹</span>` 
-            }
-        ]
-    }
-];
+        ];
 
-// 在样式中添加分段效果
-<style>
-.message-part {
-    display: block;
-    margin: 8px 0;
-    padding-left: 12px;
-    border-left: 2px solid #ffffff30;
-    animation: textReveal 0.5s ease forwards;
-    opacity: 0;
-}
+        // 增强版消息处理
+        function addMessage(text, isPlayer = false) {
+            const messageContainer = document.createElement("div");
+            messageContainer.classList.add("message");
 
-@keyframes textReveal {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-</style>
+            const avatar = document.createElement("img");
+            avatar.classList.add("avatar");
+            // 假设存在头像资源文件
+            avatar.src = isPlayer ? "player.png" : "matt.png";
 
-// 修改消息显示函数支持分段
-function addMessage(content, isPlayer) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = isPlayer ? 'player-message' : 'npc-message';
-    
-    // 动态创建分段元素
-    const fragments = document.createElement('div');
-    fragments.innerHTML = content;
-    
-    // 为每个分段添加动画延迟
-    Array.from(fragments.querySelectorAll('.message-part')).forEach((part, index) => {
-        part.style.animationDelay = `${index * 0.2}s`;
-    });
-    
-    messageDiv.appendChild(fragments);
-    chatBox.appendChild(messageDiv);
-}
+            const messageBubble = document.createElement("div");
+            messageBubble.textContent = text;
+            messageBubble.className = isPlayer ? "player-message" : "npc-message";
+
+            messageContainer.appendChild(isPlayer ? messageBubble : avatar);
+            messageContainer.appendChild(isPlayer ? avatar : messageBubble);
+            
+            chatBox.appendChild(messageContainer);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
 
         // 改进的对话流程控制
         function processOption(option) {
@@ -337,27 +334,33 @@ function addMessage(content, isPlayer) {
 
         function showDialogue() {
     if (dialogueIndex >= dialogues.length) {
-        addMessage(`危险游戏结束，你的最终危险指数：${affection}`);
+        addMessage(`危险游戏结束，你的最终指数：${affection}`);
         return;
     }
-
-    // 清除旧选项
-    const existingOptions = chatBox.querySelector('.options');
-    if (existingOptions) existingOptions.remove();
 
     const currentDialogue = dialogues[dialogueIndex];
     addMessage(currentDialogue.text);
 
-    // 创建新选项
+    // 移除旧的选项
+    document.querySelectorAll(".options").forEach(el => el.remove());
+
     const optionsBox = document.createElement("div");
     optionsBox.className = "options";
-    
+
     currentDialogue.options.forEach(option => {
         const button = document.createElement("button");
         button.textContent = option.text;
-        button.onclick = () => {
-            // 先移除选项框，防止闪烁
-            optionsBox.remove();
+        button.onclick = function() {
+            addMessage(option.text, true);
+            affection += option.effect;
+            dialogueIndex++; // 关键！递增索引
+            setTimeout(() => showDialogue(), 800);
+        };
+        optionsBox.appendChild(button);
+    });
+
+    chatBox.appendChild(optionsBox);
+}
 
             // 立即添加玩家的选择
             addMessage(option.text, true);
