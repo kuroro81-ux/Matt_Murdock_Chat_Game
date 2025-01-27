@@ -1,24 +1,31 @@
 const chatBox = document.getElementById("chat-box");
-const playerInput = document.getElementById("player-input");
 
-let affection = 0; // 好感度
+let affection = 0;
 
 const dialogues = [
     { 
-        text: "嗨，我是马特·默多克。你是谁？", 
+        text: "马特：你最近在地狱厨房到底想做什么？", 
         options: [
-            { text: "我是你的粉丝！", effect: +10 },
-            { text: "路过的陌生人。", effect: 0 },
-            { text: "谁在乎呢？", effect: -5 }
+            { text: "找点活干，赚点钱。", effect: +5 },
+            { text: "看看有没有麻烦可解决。", effect: +10 },
+            { text: "我只是路过，别多问。", effect: -5 }
         ] 
     },
     { 
-        text: "你喜欢纽约吗？", 
+        text: "马特：这里可不是安全的地方，你知道吧？",
         options: [
-            { text: "当然！这里很棒。", effect: +5 },
-            { text: "还行吧。", effect: 0 },
-            { text: "不喜欢，人太多了。", effect: -5 }
+            { text: "我一直都知道，放心吧。", effect: +5 },
+            { text: "我有足够的能力保护自己。", effect: +10 },
+            { text: "关你什么事？", effect: -10 }
         ] 
+    },
+    {
+        text: "马特：如果你需要帮忙，可以随时来找我。",
+        options: [
+            { text: "谢谢，我会记住的。", effect: +10 },
+            { text: "可能吧，看看情况。", effect: 0 },
+            { text: "不需要，我自己能搞定。", effect: -5 }
+        ]
     }
 ];
 
@@ -35,12 +42,12 @@ function addMessage(text, isPlayer = false) {
     messageBubble.textContent = text;
 
     if (isPlayer) {
-        avatar.src = "./assets/player-avatar.png"; // 玩家头像
+        avatar.src = "./assets/player-avatar.png";
         messageBubble.classList.add("player-message");
         messageContainer.appendChild(messageBubble);
         messageContainer.appendChild(avatar);
     } else {
-        avatar.src = "./assets/npc-avatar.png"; // NPC 头像
+        avatar.src = "./assets/npc-avatar.png";
         messageBubble.classList.add("npc-message");
         messageContainer.appendChild(avatar);
         messageContainer.appendChild(messageBubble);
@@ -52,7 +59,7 @@ function addMessage(text, isPlayer = false) {
 
 function showDialogue() {
     if (dialogueIndex >= dialogues.length) {
-        addMessage("游戏结束！你的好感度：" + affection);
+        addMessage("对话结束，你的好感度：" + affection);
         return;
     }
 
@@ -77,14 +84,11 @@ function showDialogue() {
     chatBox.appendChild(optionsBox);
 }
 
-function sendMessage() {
-    const text = playerInput.value.trim();
-    if (text) {
-        addMessage(text, true);
-        playerInput.value = ""; // 清空输入框
-    }
+function startDialogue() {
+    document.getElementById("input-container").innerHTML = "";
+    showDialogue();
 }
 
 window.onload = () => {
-    showDialogue();
+    chatBox.innerHTML = "<p>点击按钮开始对话...</p>";
 };
