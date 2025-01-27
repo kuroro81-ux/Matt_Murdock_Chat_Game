@@ -3,95 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>马特·默多克的对话</title>
+    <title>马特·默多克的危险游戏</title>
     <style>
         body {
-            margin: 0;
-            padding: 20px;
-            background-color: #000000; 
-            color: rgb(200, 180, 190);
-            font-family: 'Arial', sans-serif;
-            text-align: center;
+          margin: 0;
+          padding: 20px;
+          background-color: #000000; 
+          color: rgb(200, 180, 190);
+          font-family: 'Arial', sans-serif;
+          text-align: center;
         }
 
         h1 {
-            font-size: 26px;
-            margin: 0 0 5px 0;
-            color: rgb(220, 180, 190);
+          font-size: 26px;
+          margin: 0 0 5px 0;
+          color: rgb(220, 180, 190);
         }
 
         .subtitle {
-            font-size: 14px;
-            color: rgb(183, 96, 138);
-            margin-bottom: 20px;
+          font-size: 14px;
+          color: rgb(183, 96, 138);
+          margin-bottom: 20px;
         }
 
         .main-container {
-            background: rgb(45, 40, 44);
-            padding: 20px;
-            border-radius: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 0 10px rgba(183, 96, 138, 0.8);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
+          background: rgb(45, 40, 44);
+          padding: 20px;
+          border-radius: 20px;
+          max-width: 600px;
+          margin: 0 auto;
+          box-shadow: 0 0 10px rgba(183, 96, 138, 0.8);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
         }
 
         #chat-box {
-            width: 100%;
-            max-height: 400px;
-            overflow-y: auto;
-            text-align: left;
-            padding: 10px;
-            background: rgb(30, 30, 35);
-            border-radius: 10px;
-            box-shadow: 0 0 8px rgba(84, 63, 75, 0.6);
+          width: 100%;
+          min-height: 300px;
+          max-height: 400px;
+          overflow-y: auto;
+          text-align: left;
+          padding: 10px;
+          background: rgb(30, 30, 35);
+          border-radius: 10px;
+          box-shadow: 0 0 8px rgba(84, 63, 75, 0.6);
         }
 
         .message {
-            display: flex;
-            align-items: center;
-            margin: 8px 0;
+          display: flex;
+          margin: 12px 0;
+          animation: fadeIn 0.4s ease;
         }
 
         .npc-message {
-            background: rgb(84, 63, 75);
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 70%;
-            color: rgb(220, 180, 200);
+          background: rgb(84, 63, 75);
+          padding: 12px;
+          border-radius: 15px;
+          max-width: 80%;
+          color: rgb(220, 180, 200);
+          margin-right: auto;
         }
 
         .player-message {
-            background: rgb(183, 96, 138);
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 70%;
-            color: rgb(250, 220, 240);
-            align-self: flex-end;
+          background: rgb(183, 96, 138);
+          padding: 12px;
+          border-radius: 15px;
+          max-width: 80%;
+          color: rgb(250, 220, 240);
+          margin-left: auto;
+        }
+
+        .message-part {
+          display: block;
+          margin: 8px 0;
+          padding-left: 12px;
+          border-left: 2px solid rgba(255, 255, 255, 0.3);
+          animation: textReveal 0.5s ease forwards;
+          opacity: 0;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes textReveal {
+          from { opacity: 0; transform: translateX(-10px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+
+        button {
+          background: none;
+          border: 1px solid rgb(183, 96, 138);
+          color: rgb(183, 96, 138);
+          padding: 10px 15px;
+          border-radius: 8px;
+          margin: 8px 0;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        button:hover {
+          background-color: rgba(183, 96, 138, 0.2);
+          transform: translateY(-2px);
         }
 
         .options {
-            margin: 10px 0;
-        }
-
-        .options button {
-            display: block;
-            width: 100%;
-            margin: 5px 0;
-            padding: 10px;
-            background: none;
-            border: 1px solid rgb(183, 96, 138);
-            color: rgb(183, 96, 138);
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 6px;
-        }
-
-        .options button:hover {
-            background-color: rgba(183, 96, 138, 0.2);
+          width: 100%;
+          margin-top: 15px;
         }
     </style>
 </head>
@@ -101,115 +122,146 @@
 
     <div class="main-container">
         <div id="chat-box"></div>
-        <div id="input-container">
-            <button onclick="startDialogue()">开始对话</button>
-        </div>
+        <button onclick="startGame()">开始游戏</button>
     </div>
 
     <script>
         const chatBox = document.getElementById("chat-box");
         let affection = 0;
-        let dialogueIndex = 0;
+        let currentDialogue = 0;
 
         const dialogues = [
             {
-                text: `马特：（手指擦过嘴角淤青）"深夜造访我的事务所可不像是普通社交，雇佣兵小姐。这次的目标是我还是我的城市？"`,
+                npc: `马特：（手指擦过嘴角淤青）<span class="message-part">深夜造访我的事务所可不像是普通社交</span><span class="message-part">这次的目标是我还是我的城市？</span>`,
+                options: [
+                    { 
+                        text: `<span class="message-part">你的自恋程度和你的听力一样惊人</span><span class="message-part">金并的货船明晚进港，确认你不会碍事</span>`,
+                        effect: 15,
+                        response: `马特：（轻笑）<span class="message-part">关心我的安全？</span><span class="message-part">你该知道阻止那艘船会让我身上多三个弹孔</span>`
+                    },
+                    {
+                        text: `<span class="message-part">（踢开碎石发出摩尔斯电码）</span><span class="message-part">三年前教你的密码用来防我？</span>`,
+                        effect: 20,
+                        response: `马特：（闪现到你身后）<span class="message-part">香水换了...</span><span class="message-part">混着止血凝胶的味道？</span>`
+                    },
+                    {
+                        text: `<span class="message-part">与你无关</span>`,
+                        effect: -20,
+                        response: `马特：（突然抓住你的手腕）<span class="message-part">脉搏快了12%</span><span class="message-part">每次说谎都这样吗？</span>`
+                    }
+                ]
+            },
+            {
+                npc: `马特：（走向窗边）<span class="message-part">今晚的雨声...</span><span class="message-part">和三个月前那晚很像</span>`,
                 options: [
                     {
-                        text: `"你的自恋程度和你的听力一样惊人，默多克。金并的货船明晚进港，我只是来确认你不会碍事。"`,
-                        effect: +15,
-                        response: `马特：（轻笑）"关心我的安全？你该知道阻止那艘船会让我身上多三个弹孔。不过...你特意来警告我，这不像你的作风。"`
+                        text: `<span class="message-part">那次你打断了我的任务</span><span class="message-part">害我损失了五万美金</span>`,
+                        effect: 20,
+                        response: `马特：（转身）<span class="message-part">你明明可以开枪的</span><span class="message-part">7.2米距离对你来说轻而易举</span>`
                     },
                     {
-                        text: `"来收上次你弄坏我匕首的维修费，盲律师。三百美元现金，现在。"`,
-                        effect: +10,
-                        response: `马特：（摸出钞票）"记得开发票，或许能抵销你上周打碎我事务所玻璃的费用。顺便说一句，那把匕首...是弗兰克给你的吧？"`
-                    },
+                        text: `<span class="message-part">（冷笑）</span><span class="message-part">在子弹堆里跳华尔兹的疯子</span>`,
+                        effect: 25,
+                        response: `马特：（轻笑）<span class="message-part">而你用狙击镜看了二十分钟</span><span class="message-part">那晚的月光...很适合观察</span>`
+                    }
+                ]
+            },
+            {
+                npc: `马特：（金属碰撞声）<span class="message-part">你留在安全屋的巴雷特M82</span><span class="message-part">我改装了扳机阻尼系统</span>`,
+                options: [
                     {
-                        text: `"与你无关。"`,
-                        effect: -20,
-                        response: `马特：（突然抓住你的手腕）"你脉搏快了12%，每次说谎都这样吗？而且...你身上有火药味，刚从靶场回来？"`
+                        text: `<span class="message-part">（匕首抵喉）</span><span class="message-part">谁允许你碰我的枪？</span>`,
+                        effect: 30,
+                        response: `马特：（喉结擦过刀锋）<span class="message-part">你右肘旧伤</span><span class="message-part">原装扳机会偏移0.07毫米</span>`
                     }
                 ]
             }
         ];
 
-        function addMessage(content, isPlayer = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = isPlayer ? 'player-message' : 'npc-message';
-            messageDiv.textContent = content;
-            chatBox.appendChild(messageDiv);
+        function createMessage(content, isPlayer = false) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = isPlayer ? 'player-message' : 'npc-message';
+            msgDiv.innerHTML = content;
+            
+            // 添加分段动画
+            const parts = msgDiv.querySelectorAll('.message-part');
+            parts.forEach((part, index) => {
+                part.style.animationDelay = `${index * 0.2}s`;
+            });
+
+            chatBox.appendChild(msgDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function processOption(option) {
+        function showOptions(options) {
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+
+            options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.innerHTML = option.text;
+                btn.onclick = () => selectOption(option);
+                optionsDiv.appendChild(btn);
+            });
+
+            chatBox.appendChild(optionsDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function selectOption(option) {
+            // 移除选项按钮
+            document.querySelector('.options').remove();
+
             // 显示玩家选择
-            addMessage(option.text, true);
-
+            createMessage(option.text, true);
+            
             // 更新好感度
-            affection += option.effect;
+            affection = Math.max(-100, Math.min(100, affection + option.effect));
 
-            // 显示马特回应
+            // 显示NPC回应
             setTimeout(() => {
-                addMessage(option.response);
-
-                // 继续下一个对话
-                setTimeout(() => {
-                    dialogueIndex++;
-                    if (dialogueIndex >= dialogues.length) {
-                        showFinalResult();
-                        return;
-                    }
-                    showDialogue();
-                }, 1000);
+                createMessage(option.response);
+                
+                // 推进对话
+                currentDialogue++;
+                if(currentDialogue < dialogues.length) {
+                    setTimeout(showNextDialogue, 1000);
+                } else {
+                    setTimeout(showEnding, 1500);
+                }
             }, 800);
         }
 
-        function showFinalResult() {
-            const endings = {
-                "-100": "终局：你们在雨夜的天台持枪相对",
-                "-50": "终局：他最后一次为你包扎伤口",
-                "0": "终局：你们成为熟悉的陌生人", 
-                "50": "终局：危险搭档的黎明将至",
-                "100": "终局：子弹与玫瑰的悖论共生"
-            };
+        function showNextDialogue() {
+            createMessage(dialogues[currentDialogue].npc);
+            setTimeout(() => showOptions(dialogues[currentDialogue].options), 500);
+        }
 
-            let resultKey = Object.keys(endings).reduce((prev, curr) => 
-                Math.abs(curr - affection) < Math.abs(prev - affection) ? curr : prev
+        function showEnding() {
+            const endings = [
+                { threshold: -100, text: "终局：雨夜天台的双枪对峙" },
+                { threshold: -50, text: "终局：最后一次包扎伤口" },
+                { threshold: 0, text: "终局：熟悉的陌生人" },
+                { threshold: 50, text: "终局：危险搭档的黎明" },
+                { threshold: 100, text: "终局：子弹与玫瑰的共生" }
+            ];
+
+            const finalEnding = endings.reduce((prev, curr) => 
+                Math.abs(affection - curr.threshold) < Math.abs(affection - prev.threshold) ? curr : prev
             );
 
-            addMessage(`██ 危险游戏结束 ██\n最终指数：${affection}\n${endings[resultKey]}`);
+            createMessage(`<span class="message-part">██ 游戏结束 ██</span>
+                          <span class="message-part">危险指数：${affection}</span>
+                          <span class="message-part">${finalEnding.text}</span>`);
         }
 
-        function showDialogue() {
-            chatBox.innerHTML = ""; 
-            const currentDialogue = dialogues[dialogueIndex];
-            addMessage(currentDialogue.text);
-
-            const optionsBox = document.createElement("div");
-            optionsBox.className = "options";
-            
-            currentDialogue.options.forEach(option => {
-                const button = document.createElement("button");
-                button.textContent = option.text;
-                button.onclick = () => {
-                    optionsBox.remove();
-                    processOption(option);
-                };
-                optionsBox.appendChild(button);
-            });
-
-            chatBox.appendChild(optionsBox);
-        }
-
-        function startDialogue() {
-            chatBox.innerHTML = "";
+        function startGame() {
+            chatBox.innerHTML = '';
             affection = 0;
-            dialogueIndex = 0;
-            showDialogue();
+            currentDialogue = 0;
+            document.querySelector('button').style.display = 'none';
+            showNextDialogue();
         }
-
-        window.startDialogue = startDialogue;
     </script>
 </body>
 </html>
