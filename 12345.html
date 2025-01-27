@@ -52,16 +52,17 @@
 
         .message {
   display: flex;
-  align-items: flex-start;
-  margin: 10px 0;
+  align-items: center;
+  margin: 8px 0;
 }
 
 .message .avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%; /* 保持圆形 */
-  object-fit: cover; /* 确保图片不变形 */
-  flex-shrink: 0; /* 防止 flex 影响尺寸 */
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin: 0 8px;
 }
 
 .npc-message {
@@ -70,7 +71,6 @@
   border-radius: 10px;
   max-width: 70%;
   color: rgb(220, 180, 200);
-  margin-left: 50px; /* 让NPC消息和头像对齐 */
 }
 
 .player-message {
@@ -79,16 +79,15 @@
   border-radius: 10px;
   max-width: 70%;
   color: rgb(250, 220, 240);
-  margin-right: 50px; /* 让玩家消息和头像对齐 */
   align-self: flex-end;
 }
 
 .message.npc {
-  justify-content: flex-start; /* NPC 对话靠左 */
+  justify-content: flex-start;
 }
 
 .message.player {
-  justify-content: flex-end; /* 玩家对话靠右 */
+  justify-content: flex-end;
 }
         button {
           background: none;
