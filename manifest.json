@@ -1,0 +1,15 @@
+{
+    "name": "与马特·默多克聊天",
+    "short_name": "马特聊天",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#121212",
+    "theme_color": "#007BFF",
+    "icons": [
+        {
+            "src": "assets/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
